@@ -408,7 +408,7 @@ def admin_discharge_patient_view(request):
 @user_passes_test(is_admin)
 def discharge_patient_view(request,pk):
     patient=models.Patient.objects.get(id=pk)
-    days=(date.today()-patient.admitDate) #2 days, 0:00:00
+    days=date.today()-patient.admitDate #2 days, 0:00:00
     assignedDoctor=models.User.objects.all().filter(id=patient.assignedDoctorId)
     d=days.days # only how many day that is 2
     patientDict={
@@ -733,10 +733,8 @@ def patient_book_appointment_view(request):
         appointmentForm=forms.PatientAppointmentForm(request.POST)
         if appointmentForm.is_valid():
             print(request.POST.get('doctorId'))
-            desc=request.POST.get('description')
-
-            doctor=models.Doctor.objects.get(user_id=request.POST.get('doctorId'))
-            
+            # desc=request.POST.get('description')
+            # doctor=models.Doctor.objects.get(user_id=request.POST.get('doctorId'))
             appointment=appointmentForm.save(commit=False)
             appointment.doctorId=request.POST.get('doctorId')
             appointment.patientId=request.user.id #----user can choose any patient but only their info will be stored
